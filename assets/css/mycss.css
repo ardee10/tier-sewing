@@ -1,0 +1,181 @@
+@font-face {
+    font-family: "AdiHaus";
+    src: url("../fonts/adihaus/AdiHaus_Regular.ttf");
+}
+
+@font-face {
+    font-family: "AdiHausBold";
+    src: url("../fonts/adihaus/AdiHaus_Bold.ttf");
+}
+
+body {
+    font-family: AdiHaus;
+    /* color: rgb(65, 61, 61);
+    background-color: #343e59 !important; */
+}
+
+.bg-gray {
+    background-color: #5d5d5d;
+    color: #ffffff;
+}
+
+.text-lg {
+    font-size: 1.1em;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.baseline {
+    text-align: center;
+    padding: 5px 2em 5px 2em;
+    margin-left: 5px;
+    border-radius: 5px;
+}
+
+.baseline-target {
+    border: 1px solid #3DB2FF;
+    color: #3DB2FF;
+}
+
+.baseline-mtd {
+    border: 1px solid #57CC99;
+    color: #57CC99;
+}
+
+.baseline-frmsb {
+    border: 1px solid #ffc107;
+    color: #ffc107;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+div {
+    font-family: AdiHaus;
+}
+
+.adibold {
+    font-family: AdiHausBold;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: AdiHaus!important;
+}
+
+/* general */
+#table-eolr>tbody {
+    background-color: #ffffff;
+    color: black;
+}
+
+.table-p0>thead>tr>th {
+    padding: 5px !important;
+}
+
+.table-p0>tbody>tr>td {
+    padding: 5px !important;
+}
+
+.bg-table-lightblue {
+    background-color: #5289f8;
+    color: white;
+    text-align: center;
+}
+
+.form-date {
+    padding: 8px !important;
+}
+
+/* modal */
+.modal-custom {
+    max-width: 1920px;
+    width: 100%;
+}
+
+.bg-light-blue {
+    background-color: #3c96f6fa;
+    color: white;
+}
+
+.bg-custom-black {
+    background-color: #5d5d5d;
+    color: white;
+}
+
+/* button */
+.btn-eolr {
+    color: #007bff;
+    background-color: #f8f9fa;
+    border-color: #007bff;
+}
+
+.close {
+    background-color: none !important;
+}
+
+.btn-round-primary {
+    background-color: #007bff;
+    color: white;
+    border-radius: 20px !important;
+}
+
+.btn-round-orange {
+    background-color: #fd7e14;
+    color: white;
+    border-radius: 20px !important;
+}
+
+.hover-td:hover {
+    background-color: #f8f9fa !important;
+    color: black !important;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+/* main */
+.card {
+    border-radius: none !important;
+}
+
+.card-pwj {
+    border: 2px solid black;
+}
+
+.card-f1 {
+    border: 2px solid blue;
+}
+
+.card-f2 {
+    border: 2px solid purple;
+}
+
+.card-f3 {
+    border: 2px solid rgb(50, 196, 253);
+}
+
+.card-f4 {
+    border: 2px solid rgb(32, 145, 98);
+}
+
+.card-f5 {
+    border: 2px solid orange;
+}
+
+.card-f6 {
+    border: 2px solid lightseagreen;
+}
+
+.card-sf {
+    border: 2px solid yellowgreen;
+}
+
+.card-mo {
+    border: 2px solid darkmagenta;
+}
