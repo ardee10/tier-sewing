@@ -349,7 +349,6 @@ class M_Sixs extends CI_Model
 		}
 		return true;
 	}
-
 	function Import($data)
 	{
 		return $this->getDataImport($data);

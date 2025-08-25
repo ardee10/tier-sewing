@@ -108,9 +108,7 @@ class M_Cot extends CI_Model
 
 		return false;
 	}
-
 	/* Hapus data by_id */
-
 	public function hapusdatabyId($id)
 	{
 
@@ -138,6 +136,116 @@ class M_Cot extends CI_Model
 		}
 
 		return false;
+	}
+
+	/* Import Excel File */
+	function processImportCot()
+	{
+		$nama_file 					= uniqid('Cot_', true) . '.xlsx';
+		$config['upload_path']   	= './file/temp/cot'; //Lokasi temp File
+		$config['allowed_types'] 	= 'xls|xlsx';
+		$config['file_name']     	= $nama_file;
+		$config['overwrite']     	= true;
+		$this->load->library('upload', $config);
+
+		if (!$this->upload->do_upload('file')) {
+			// Gagal upload
+			$response = $this->upload->display_errors();
+			return [
+				'kode' => 'error',
+				'msg'  => $response
+			];
+		}
+		// Berhasil upload
+		$uploaded_data = $this->upload->data();
+		$file_path = $uploaded_data['full_path'];
+
+		try {
+			$uploaded_data = $this->upload->data();
+			$file_path = $uploaded_data['full_path']; // ✅ Ini path file sebenarnya
+
+			$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file_path);
+			$worksheet = $spreadsheet->getActiveSheet()->toArray();
+
+			$result = $this->Import($worksheet);
+
+			// Hapus file temp
+			if (file_exists($file_path)) {
+				unlink($file_path);
+			}
+
+			return 'success';
+		} catch (\Throwable $e) {
+			return [
+				'kode' => 'error',
+				'msg'  => 'Gagal membaca file: ' . $e->getMessage()
+			];
+		}
+	}
+
+	function getDataImport($data)
+	{
+		for ($i = 1; $i < count($data); $i++) {
+
+			/* Sesuaikan Kolom yang ada */
+			// Ambil data dari setiap baris (disesuaikan urutan kolom Excel)
+			$kode_cell   	= isset($data[$i][0]) ? trim($data[$i][0]) : null;
+			$factory     	= isset($data[$i][1]) ? trim($data[$i][1]) : null;
+			$qty_cot  		= isset($data[$i][3]) ? str_replace(',', '.', $data[$i][3]) : null;
+			$cot_date  		= isset($data[$i][4]) ? trim($data[$i][4]) : null;
+
+			// Validasi dasar
+			if (!empty($kode_cell) && !empty($factory) && !empty($cot_date)) {
+				$where = [
+					'id_cell' 			=> $kode_cell,
+					'cot_date' 			=> $cot_date
+				];
+				$cek = $this->db->get_where('cot', $where)->row();
+				$dataInsert = [
+					'id_cell' 			=> $kode_cell,
+					'kode_factory' 		=> $factory,
+					'qty_cot' 			=> $qty_cot,
+					'cot_date' 			=> $cot_date
+				];
+				//lakukan insert atau update di table pekerjaan
+				$cek_pekerjaan = $this->db->get_where('pekerjaan', [
+					'LINE_CD'           => $kode_cell,
+					'tanggal_pekerjaan' => $cot_date
+				])->row();
+
+				if ($cek_pekerjaan) {
+					// Update pekerjaan
+					$this->db->where([
+						'LINE_CD'           => $kode_cell,
+						'tanggal_pekerjaan' => $cot_date
+					]);
+					$this->db->update('pekerjaan', [
+						'cot' 		=> $qty_cot
+					]);
+				} else {
+					// Insert pekerjaan baru
+					$this->db->insert('pekerjaan', [
+						'LINE_CD'           => $kode_cell,
+						'tanggal_pekerjaan' => $cot_date,
+						'cot'             	=> $qty_cot
+					]);
+				}
+				if ($cek) {
+					// Jika sudah ada, update
+					$this->db->where('id_cot', $cek->id_cot);
+					$this->db->update('cot', $dataInsert);
+				} else {
+					// Jika belum ada, insert baru
+					$this->db->insert('cot', $dataInsert);
+				}
+			}
+		}
+		return true;
+	}
+
+	function Import($data)
+	{
+		return $this->getDataImport($data);
 	}
 }
 

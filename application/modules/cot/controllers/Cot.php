@@ -129,6 +129,40 @@ class Cot extends CI_Controller
 		$this->M_Cot->hapusdatabyId($id);
 		redirect('Cot', 'refresh');
 	}
+
+	/* Import COt From Excel File */
+
+	public function import_cot()
+	{
+		/* Import File Kazien */
+		$data = [
+			'title' 		=> 'IMPORT FILE COT',
+			'user'			=> $this->user
+		];
+		$this->template->load('tema/index', 'import', $data);
+	}
+	/* Action Import File Cot */
+	public function upload_cot()
+	{
+		$result = $this->M_Cot->processImportCot();
+		if ($result === 'success') {
+			$this->session->set_flashdata('message', [
+				'title' => 'Success',
+				'text'  => 'Data Cot berhasil diimport',
+				'icon'  => 'success',
+				'type'  => 'success'
+			]);
+		} else {
+			$pesan_error = is_array($result) ? $result['msg'] : 'Terjadi kesalahan saat menyimpan data';
+			$this->session->set_flashdata('message', [
+				'title' => 'Gagal',
+				'text'  => $pesan_error,
+				'icon'  => 'error',
+				'type'  => 'danger'
+			]);
+		}
+		redirect('Cot', 'refresh');
+	}
 }
 
 /* End of file: Cot.php */
