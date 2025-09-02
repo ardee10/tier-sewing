@@ -311,7 +311,6 @@ var options = {
 			title: {
 				text: 'EOLR',
 			},
-
 		}, ],
 	};
 	

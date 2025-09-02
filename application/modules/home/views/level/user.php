@@ -1022,15 +1022,55 @@
 							let kj = (ix != 0) ? "red" : "#6ECB63";
 							$("#total_nlti").css("color", kj), $("#total_nlti").text(res.data.total_nlti);
 
+							// let grafikData = JSON.parse(res.data.grafik);
+							// console.log('DATA KPI:', grafikData);
+							// chart.updateOptions({
+							// 	series: [{
+							// 		data: JSON.parse(res.data.grafik)
+							// 	}],
+							// 	chart: {
+							// 		toolbar: {
+							// 			show: !1
+							// 		}
+							// 	},
+							// 	annotations: {
+							// 		yaxis: [{
+							// 			y: res.data.kpi_target_eolr,
+							// 			borderColor: "#0F00FF",
+							// 			label: {
+							// 				borderColor: "#0F00FF",
+							// 				text: res.data.kpi_target_eolr
+							// 			}
+							// 		}]
+							// 	},
+							// 	colors: [
+							// 		function({
+							// 			value: t,
+							// 			seriesIndex: a,
+							// 			w: l
+							// 		}) {
+							// 			return t <= (89 / 100) * res.data.kpi_target_eolr ? "#ff0000" : "#00A19D";
+							// 		},
+							// 	],
+							// });
+
 							let grafikData = JSON.parse(res.data.grafik);
-							console.log('DATA KPI:', grafikData);
+
+							// Cek jika semua data kosong/null
+							if (!grafikData || !grafikData.length || grafikData.every(d => d.x === null || d.y === null)) {
+								grafikData = [{
+									x: 'No Data',
+									y: 0
+								}];
+							}
+
 							chart.updateOptions({
 								series: [{
-									data: JSON.parse(res.data.grafik)
+									data: grafikData
 								}],
 								chart: {
 									toolbar: {
-										show: !1
+										show: false
 									}
 								},
 								annotations: {
@@ -1045,15 +1085,20 @@
 								},
 								colors: [
 									function({
-										value: t,
-										seriesIndex: a,
-										w: l
+										value
 									}) {
-										return t <= (89 / 100) * res.data.kpi_target_eolr ? "#ff0000" : "#00A19D";
-									},
+										return value <= (0.89 * res.data.kpi_target_eolr) ? "#ff0000" : "#00A19D";
+									}
 								],
+								noData: {
+									text: "No Data Available",
+									align: 'center',
+									style: {
+										color: '#888',
+										fontSize: '14px'
+									}
+								}
 							});
-
 
 						} else {
 							alert('Data tidak ditemukan.');
