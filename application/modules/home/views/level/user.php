@@ -479,7 +479,7 @@
 											<div class="my-2">
 												<a href="#" id="link_layout" hidden class="btn btn-success text-white" style="--bs-btn-padding-y: .25rem; text-decoration:none;--bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Layout</a>
 												<a href="#" id="data-flexim" hidden class="btn btn-success btn-sm text-white" style="--bs-btn-padding-y: .25rem; text-decoration:none;--bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Flexim</a>
-												<a target="_blank" href="#" id="data-ie" class="btn btn-success btn-sm text-white" style="--bs-btn-padding-y: .25rem; text-decoration:none;--bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">IE Data</a>
+												<a target="_blank" href="http://192.168.40.191:8081/media/ieData/" id="data-ie" class="btn btn-success btn-sm text-white" style="--bs-btn-padding-y: .25rem; text-decoration:none;--bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">IE Data</a>
 											</div>
 										</div>
 									</div>
